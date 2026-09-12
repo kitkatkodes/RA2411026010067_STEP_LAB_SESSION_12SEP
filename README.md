@@ -1,4 +1,4 @@
-# SOLID Principles in Java - Lab Session
+# SOLID Principles in Python - Lab Session
 
 This repository contains the refactored code and written answers for the SOLID Principles Enterprise Banking System lab assignment.
 
