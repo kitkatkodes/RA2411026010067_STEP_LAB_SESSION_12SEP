@@ -1,0 +1,4 @@
+# Section 4: ISP + DIP
+
+### Wrap-up Question 5: Reflecting on the design changes
+If we needed to add a MongoDB database today, we would only need to create one single new file that implements the repository interface. After that, we just change exactly one line in the main configuration to inject it. We would not have to touch the main bank logic at all. In contrast, with the original single class design from the first lab, we would have had to open that giant file, locate the hardcoded database methods, rewrite the save logic directly, and risk breaking unrelated withdrawal or email code in the process. The modular approach successfully isolates changes and protects existing working code.
