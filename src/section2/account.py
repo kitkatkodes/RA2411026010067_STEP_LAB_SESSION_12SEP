@@ -1,19 +1,16 @@
 from abc import ABC, abstractmethod
 
 class Account(ABC):
-    def __init__(self, account_number, balance):
-        self.account_number = account_number
-        self.balance = balance
+    def __init__(self, acc_num, starting_balance):
+        self.acc_num = acc_num
+        self.available_balance = starting_balance
 
-    def deposit(self, amount):
-        if amount > 0:
-            self.balance += amount
+    def deposit(self, txn_amount):
+        if txn_amount > 0:
+            self.available_balance += txn_amount
             return True
         return False
 
     @abstractmethod
-    def withdraw(self, amount):
+    def withdraw(self, txn_amount):
         pass
-
-    def get_balance(self):
-        return self.balance

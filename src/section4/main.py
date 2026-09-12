@@ -2,12 +2,11 @@ from repository import FileAccountRepository
 from bank import Bank
 
 def main():
-    # We swap dependencies entirely from the outside
-    repo = FileAccountRepository()
-    bank = Bank(repo)
+    text_db = FileAccountRepository()
+    greenleaf_bank = Bank(text_db)
     
-    bank.open_account("999", "CustomerName", 500.0)
-    print("Account saved successfully through file repository.")
+    greenleaf_bank.open_account("888", "Shreyasi", 750.0)
+    print("New customer registered via File Repository.")
 
 if __name__ == "__main__":
     main()

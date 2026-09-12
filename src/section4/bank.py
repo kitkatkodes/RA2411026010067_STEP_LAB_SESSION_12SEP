@@ -1,14 +1,10 @@
 """
 Warm-up Question 3: Dependency Inversion
-In the original design, the bank class directly created concrete classes like new InMemoryAccountRepository().
-We need to change the constructor so it takes an AccountRepository abstraction instead. 
-This way, the bank never directly creates a concrete repository itself and relies entirely on the interface.
+Previously, the primary class hardcoded the creation of a specific storage component, binding it permanently to that implementation. By passing an abstract repository through the constructor, the core logic relies on the interface contract rather than the database details.
 """
-
 class Bank:
-    def __init__(self, repository):
-        self.repository = repository
+    def __init__(self, data_store):
+        self.data_store = data_store
         
-    def open_account(self, account_number, name, balance):
-        # The bank does not know or care if this writes to a file, database, or memory
-        self.repository.save(account_number, name, balance)
+    def open_account(self, acc_num, client_name, funds):
+        self.data_store.save(acc_num, client_name, funds)

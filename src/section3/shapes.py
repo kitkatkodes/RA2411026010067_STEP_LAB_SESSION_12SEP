@@ -1,43 +1,36 @@
 """
 Warm-up Question 2: Why Square/Rectangle breaks LSP
-The calling code assumes that setting the height of a rectangle will leave its width completely unchanged. 
-The square violates this assumption by linking the two dimensions together. 
-This means we cannot substitute a square in place of a rectangle without breaking standard geometric expectations.
+The caller code expects that altering the height of a rectangle will never impact its width. A square breaks this geometric contract by locking both dimensions together, making it impossible to seamlessly substitute a rectangle with a square without causing unexpected behavior.
 """
-
 class Rectangle:
     def __init__(self):
-        self.width = 0
-        self.height = 0
+        self.w = 0
+        self.h = 0
 
-    def set_width(self, width):
-        self.width = width
+    def set_w(self, val):
+        self.w = val
 
-    def set_height(self, height):
-        self.height = height
+    def set_h(self, val):
+        self.h = val
 
-    def get_area(self):
-        return self.width * self.height
-
+    def calc_area(self):
+        return self.w * self.h
 
 class Square(Rectangle):
-    def set_width(self, width):
-        self.width = width
-        self.height = width
+    def set_w(self, val):
+        self.w = val
+        self.h = val
 
-    def set_height(self, height):
-        self.width = height
-        self.height = height
-
+    def set_h(self, val):
+        self.w = val
+        self.h = val
 
 def main():
-    # Warm-up Question 1: Testing the classic Rectangle/Square issue
-    rect = Square()
-    rect.set_width(10)
-    rect.set_height(20)
+    shape = Square()
+    shape.set_w(10)
+    shape.set_h(20)
     
-    # We expect 200, but this will print 400
-    print(f"Area is: {rect.get_area()}")
+    print(f"Calculated Area: {shape.calc_area()} (Expected 200)")
 
 if __name__ == "__main__":
     main()

@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 class AccountRepository(ABC):
     @abstractmethod
-    def save(self, account_number, name, balance):
+    def save(self, acc_num, client_name, funds):
         pass
 
 class FileAccountRepository(AccountRepository):
-    def save(self, account_number, name, balance):
-        with open("accounts.txt", "a") as file:
-            file.write(f"{account_number},{name},{balance}\n")
+    def save(self, acc_num, client_name, funds):
+        with open("bank_data.txt", "a") as db_file:
+            db_file.write(f"{acc_num} | {client_name} | {funds}\n")

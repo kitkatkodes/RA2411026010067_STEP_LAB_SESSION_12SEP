@@ -1,6 +1,6 @@
 class Bank:
-    def __init__(self, notification_service):
-        self.notification_service = notification_service
+    def __init__(self, alert_service):
+        self.alert_service = alert_service
 
-    def perform_operation(self, message):
-        self.notification_service.send("System", message)
+    def trigger_process(self, status_msg):
+        self.alert_service.send("System Admin", status_msg)

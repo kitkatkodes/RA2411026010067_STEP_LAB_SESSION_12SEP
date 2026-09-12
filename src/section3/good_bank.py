@@ -1,43 +1,37 @@
 from abc import ABC, abstractmethod
 
 class Account:
-    def __init__(self, account_id, balance):
-        self.account_id = account_id
-        self.balance = balance
-
+    def __init__(self, acc_id, funds):
+        self.acc_id = acc_id
+        self.funds = funds
 
 class Withdrawable(ABC):
     @abstractmethod
-    def withdraw(self, amount):
+    def withdraw(self, amt):
         pass
 
-
 class SavingsAccount(Account, Withdrawable):
-    def withdraw(self, amount):
-        if self.balance >= amount:
-            self.balance -= amount
-
+    def withdraw(self, amt):
+        if self.funds >= amt:
+            self.funds -= amt
 
 class CurrentAccount(Account, Withdrawable):
-    def withdraw(self, amount):
-        self.balance -= amount
-
+    def withdraw(self, amt):
+        self.funds -= amt
 
 class FixedDepositAccount(Account):
-    # This class no longer implements withdraw() because it cannot honestly fulfill that contract
+    # Removed withdraw method completely to honor LSP
     pass
 
-
-def test_loop_fixed():
-    # Now we only iterate over Withdrawable accounts, completely avoiding the crash
-    accounts = [
-        SavingsAccount("1", 500),
-        CurrentAccount("2", 1000)
+def run_test_fixed():
+    acc_list = [
+        SavingsAccount("A1", 500),
+        CurrentAccount("A2", 1000)
     ]
     
-    for acc in accounts:
-        acc.withdraw(50)
-        print(f"Successfully withdrew from account {acc.account_id}")
+    for account in acc_list:
+        account.withdraw(50)
+        print(f"Cash dispensed for account {account.acc_id}")
         
 if __name__ == "__main__":
-    test_loop_fixed()
+    run_test_fixed()

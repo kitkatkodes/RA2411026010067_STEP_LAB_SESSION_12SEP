@@ -1,7 +1,7 @@
 class StatementGenerator:
-    def generate(self, account):
-        statement = f"Statement for Account #{account.get_account_number()} ({account.get_name()})\n"
-        for entry in account.transaction_log:
-            statement += entry + "\n"
-        statement += f"Current Balance: Rs. {account.get_balance()}\n"
-        return statement
+    def generate(self, account_obj):
+        layout = f"\n=== ACCOUNT RECORD: {account_obj.get_acc_num()} | {account_obj.get_name()} ===\n"
+        for log in account_obj.history:
+            layout += f"  > {log}\n"
+        layout += f"=== FINAL BALANCE: Rs. {account_obj.get_balance()} ===\n"
+        return layout

@@ -3,24 +3,24 @@ from current_interest_policy import CurrentInterestPolicy
 from salary_interest_policy import SalaryInterestPolicy
 from bank import Bank
 
-class DummyNotificationService:
-    def send(self, recipient, message):
-        print(f"To: {recipient} | {message}")
+class ConsoleNotificationService:
+    def send(self, target_user, txt):
+        print(f"[Log] {target_user} : {txt}")
 
 def main():
-    balance = 1000.0
+    base_funds = 1000.0
     
-    savings_policy = SavingsInterestPolicy()
-    current_policy = CurrentInterestPolicy()
-    salary_policy = SalaryInterestPolicy()
+    savings = SavingsInterestPolicy()
+    current = CurrentInterestPolicy()
+    salary = SalaryInterestPolicy()
 
-    print(f"Savings Interest: {savings_policy.calculate(balance)}")
-    print(f"Current Interest: {current_policy.calculate(balance)}")
-    print(f"Salary Interest: {salary_policy.calculate(balance)}")
+    print(f"Savings Yield: {savings.calculate(base_funds)}")
+    print(f"Current Yield: {current.calculate(base_funds)}")
+    print(f"Salary Yield: {salary.calculate(base_funds)}")
 
-    notifier = DummyNotificationService()
-    bank = Bank(notifier)
-    bank.perform_operation("Interest policies applied successfully")
+    service = ConsoleNotificationService()
+    my_bank = Bank(service)
+    my_bank.trigger_process("Monthly interest calculation finished.")
 
 if __name__ == "__main__":
     main()

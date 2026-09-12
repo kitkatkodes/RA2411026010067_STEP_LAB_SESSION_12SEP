@@ -2,5 +2,5 @@ from abc import ABC, abstractmethod
 
 class InterestPolicy(ABC):
     @abstractmethod
-    def calculate(self, balance):
+    def calculate(self, available_balance):
         pass

@@ -1,34 +1,29 @@
 class Account:
-    def __init__(self, account_id, balance):
-        self.account_id = account_id
-        self.balance = balance
+    def __init__(self, acc_id, funds):
+        self.acc_id = acc_id
+        self.funds = funds
         
-    def withdraw(self, amount):
+    def withdraw(self, amt):
         pass
 
-
 class SavingsAccount(Account):
-    def withdraw(self, amount):
-        if self.balance >= amount:
-            self.balance -= amount
-
+    def withdraw(self, amt):
+        if self.funds >= amt:
+            self.funds -= amt
 
 class FixedDepositAccount(Account):
-    def withdraw(self, amount):
-        # We override this just to throw an exception since FDs cannot be withdrawn early
-        raise NotImplementedError("Withdrawal is not supported for Fixed Deposits")
+    def withdraw(self, amt):
+        raise NotImplementedError("Early withdrawals are strictly prohibited for FDs.")
 
-
-def test_loop():
-    accounts = [
-        SavingsAccount("1", 500),
-        FixedDepositAccount("2", 1000)
+def run_test():
+    acc_list = [
+        SavingsAccount("A1", 500),
+        FixedDepositAccount("A2", 1000)
     ]
     
-    # This loop will crash when it hits the FixedDepositAccount
-    for acc in accounts:
-        acc.withdraw(50)
-        print(f"Successfully withdrew from account {acc.account_id}")
+    for account in acc_list:
+        account.withdraw(50)
+        print(f"Cash dispensed for account {account.acc_id}")
 
 if __name__ == "__main__":
-    test_loop()
+    run_test()

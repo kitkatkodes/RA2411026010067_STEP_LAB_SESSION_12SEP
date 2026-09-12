@@ -1,79 +1,73 @@
 """
 Warm-up Question 1: Reasons to change
-1. Changes to the database storage or persistence layer.
-2. Changes to the email provider or notification logic.
-3. Changes to the way transaction statements are formatted or printed.
-4. Changes to the core banking rules like minimum balance requirements.
+1. Modifying the persistence mechanism or database layer.
+2. Switching the notification method, like moving from email to SMS.
+3. Updating the display format of the transaction statements.
+4. Adjusting internal business logic such as minimum balance thresholds.
 
 Warm-up Question 2: Job description
-The BankAccount class should be solely responsible for tracking a customer balance by processing valid deposits and withdrawals.
+This class should solely manage the state of a customer balance by validating and processing deposits and withdrawals.
 """
 
 class BankAccount:
-    def __init__(self, account_number, name, age, balance, account_type):
-        if age < 18:
-            age = 18
-        minimum_balance = 500.0 if account_type == "Savings" else 1000.0
-        if balance < minimum_balance:
-            balance = minimum_balance
+    def __init__(self, acc_num, client_name, client_age, initial_funds, acc_type):
+        if client_age < 18:
+            client_age = 18
             
-        self.account_number = account_number
-        self.name = name
-        self.age = age
-        self.balance = balance
-        self.account_type = account_type
-        self.status = "Active"
-        self.pin = None
-        self.transaction_log = []
+        min_required = 500.0 if acc_type == "Savings" else 1000.0
+        if initial_funds < min_required:
+            initial_funds = min_required
+            
+        self.acc_num = acc_num
+        self.client_name = client_name
+        self.client_age = client_age
+        self.current_balance = initial_funds
+        self.acc_type = acc_type
+        self.is_active = True
+        self.security_pin = None
+        self.history = []
 
-    def deposit(self, amount):
-        if self.status != "Active":
-            return False
-        if amount <= 0:
-            return False
-        self.balance += amount
-        self.transaction_log.append(f"DEPOSIT: Rs. {amount} | New balance: {self.balance}")
-        return True
-
-    def withdraw(self, amount, entered_pin):
-        if self.status != "Active":
-            return False
-        if self.pin is not None:
-            if entered_pin is None or entered_pin != self.pin:
-                return False
-        if amount <= 0:
-            return False
-        minimum_balance = 500.0 if self.account_type == "Savings" else 1000.0
-        if self.balance - amount < minimum_balance:
+    def deposit(self, txn_amount):
+        if not self.is_active or txn_amount <= 0:
+            print("Error: Invalid deposit attempt.")
             return False
             
-        self.balance -= amount
-        self.transaction_log.append(f"WITHDRAW: Rs. {amount} | New balance: {self.balance}")
+        self.current_balance += txn_amount
+        self.history.append(f"+ {txn_amount} | Available: {self.current_balance}")
         return True
 
-    def get_account_number(self):
-        return self.account_number
+    def withdraw(self, txn_amount, input_pin):
+        if not self.is_active:
+            print("Error: Account disabled.")
+            return False
+            
+        if self.security_pin is not None and (input_pin is None or input_pin != self.security_pin):
+            print("Error: Authentication failed.")
+            return False
+            
+        if txn_amount <= 0:
+            return False
+            
+        min_required = 500.0 if self.acc_type == "Savings" else 1000.0
+        if self.current_balance - txn_amount < min_required:
+            print("Error: Insufficient funds to maintain minimum balance.")
+            return False
+            
+        self.current_balance -= txn_amount
+        self.history.append(f"- {txn_amount} | Available: {self.current_balance}")
+        return True
+
+    def get_acc_num(self):
+        return self.acc_num
 
     def get_name(self):
-        return self.name
-
-    def get_age(self):
-        return self.age
+        return self.client_name
 
     def get_balance(self):
-        return self.balance
-
-    def get_status(self):
-        return self.status
-
-    def get_account_type(self):
-        return self.account_type
-
-    def has_pin(self):
-        return self.pin is not None
+        return self.current_balance
 
     def set_pin(self, new_pin):
         if 1000 <= new_pin <= 9999:
-            self.pin = new_pin
+            self.security_pin = new_pin
             return True
         return False
